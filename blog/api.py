@@ -10,18 +10,12 @@ class PostSerializer(serializers.ModelSerializer):
 
     @staticmethod
     def get_annotation(obj: Post):
-        return obj.content[:obj.content[100:].find(' ')]
+        return obj.content if len(obj.content) <= 100 else obj.content[:obj.content.rfind(' ', 0, 101)]
 
     class Meta:
         model = Post
         fields = ('id', 'author', 'title', 'annotation', 'author_name', 'created_at')
 
-
-# class DateIntervalFilter(filters.BaseFilterBackend):
-#     def filter_queryset(self, request, queryset, view):
-#         date_from = request.query_params.get('date_from')
-#         date_to = request.query_params.get('date_to')
-#
 
 class DateIntervalFilter(FilterSet):
     date_from = DateFilter(field_name='created_at', lookup_expr='date__gte')

@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from blog.api import PostListView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/posts/', PostListView.as_view())
 ]

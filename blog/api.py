@@ -7,6 +7,7 @@ from .models import Post
 class PostSerializer(serializers.ModelSerializer):
     annotation = serializers.SerializerMethodField()
     author_name = serializers.CharField(source='author.name')
+    created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
 
     @staticmethod
     def get_annotation(obj: Post):
@@ -30,6 +31,10 @@ class DateIntervalFilter(FilterSet):
 
 
 class PostListView(generics.ListAPIView):
+    """
+    Filtering by creation date: date_from, date_to params;
+    Use date format %Y-%m-%d (like 2019-11-23)
+    """
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     filter_backends = (DjangoFilterBackend, )
